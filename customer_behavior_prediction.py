@@ -9,6 +9,7 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 
 
+# Loading transactions dataset
 df = pd.read_csv("data/all_transactions.csv", index_col=0)
 
 
@@ -139,7 +140,7 @@ reference_date = "2019-01-31"
 predictions, model = train_and_predict(reference_date, model_file="lstm_model.pth")     # use if you don't want to train a new model
 
 # Saving predictions and model
-predictions.to_csv("data/customer_behavior_predictions.csv")
+predictions.to_csv("csv_results/customer_behavior_predictions.csv")
 torch.save(model.state_dict(), "lstm_model.pth")
 
 # Visualizing predictions
@@ -152,4 +153,4 @@ plt.xlabel("Future Months")
 plt.ylabel("Predicted Transactions")
 plt.title(f"Transactions Forecast for Next 3 Months (Up to {reference_date})")
 plt.legend()
-plt.savefig('results/customer_behavior_prediction.png')
+plt.savefig('plots/customer_behavior_prediction.png')
