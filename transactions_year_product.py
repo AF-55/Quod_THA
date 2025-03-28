@@ -12,7 +12,7 @@ tr = product_monthly[(product_monthly['year_month'].dt.year == year) & (product_
 
 plt.figure(figsize=(12,8))
 plt.plot(range(len(tr)), tr['transactions'].values, marker='o', color='royalblue', linestyle='dashed')
-plt.grid('--')
+plt.grid(linestyle='--')
 ticks = tr.year_month.dt.to_period('M')
 plt.xticks(ticks=range(len(tr)), labels=ticks)
 plt.xlabel('Month')
