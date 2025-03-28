@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("data/all_transactions.csv", index_col=0)
 
@@ -13,10 +14,15 @@ six_months_ago = six_months_ago.strftime('%Y-%m-%d')
 
 formatted_dates = df['date'].apply(lambda x:x[:10])
 df_recent = df[(formatted_dates >= six_months_ago) & (formatted_dates <= reference_date)]
-top_products = df_recent['product_id'].value_counts().head(nb_top).index.to_list()
+top_products = df_recent['product_id'].value_counts().head(nb_top)
+top_product_ids = top_products.index
+top_product_count = top_products.values
 
-str_result = f"On {reference_date}, the top {nb_top} products that drove the highest sales over the last {nb_months} months are: {', '.join(top_products)}."
-print(str_result)
-with open('results/top_five_most_sold.txt', 'w') as file:
-    file.write(str_result)
-
+plt.figure(figsize=(12,12))
+plt.bar(top_product_ids, top_product_count, color='limegreen')
+plt.yticks(top_product_count)
+plt.grid(linestyle='--', axis='y', color='black')
+plt.xlabel("Products")
+plt.ylabel("Number of Transactions")
+plt.title(f'Number of transactions for the top {nb_top} products that, as of {reference_date}, drove the highest sales over the last {nb_months} months')
+plt.savefig("results/top_five_most_sold.png")
